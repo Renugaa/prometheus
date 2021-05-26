@@ -1,0 +1,33 @@
+version: "3"  
+services:  
+ prometheus:
+      container_name: prometheus
+      image: prom/prometheus:latest
+      ports:
+      - "9090:9090"
+      volumes:
+      - "./prometheus.yml:/etc/prometheus/prometheus.yml"
+
+ nodeexporter:
+      container_name: nodeexporter
+      image: quay.io/prometheus/node-exporter:latest
+      ports:
+      - "9100:9100"
+
+ grafana:
+      image: grafana/grafana
+      user: "1000"
+      environment:
+      - GF_SECURITY_ADMIN_PASSWORD=secure_pass
+      depends_on:
+      - prometheus
+      ports:
+      - '3000:3000'
+
+ app:
+      container_name: app
+      build: ./flask_app/.
+      ports:
+      - "5000:5000"
+      volumes:
+      - "./flask_app/app.py:/app.py"
