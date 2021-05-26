@@ -13,7 +13,7 @@ In this tutorial, we use
 Before we get started installing the monitoring stack. Ensure you install the latest version of docker and [docker swarm](https://docs.docker.com/engine/swarm/swarm-tutorial/) on your Docker host machine. Docker Swarm is installed automatically when using Docker for Mac or Docker for Windows.
 
 # Installation & Configuration
-Clone the project locally to your Docker host.
+Clone the repo to your Docker host machine.
 
 Instead of downloading each component used in this tutorial, we are running everything on docker containers. Docker compose is used for running multi-container applications. We just need to configure the different application services in a Yaml file called `docker-compose.yml`. Then with single command, we can easily start all the services.
 
@@ -23,7 +23,11 @@ You need to use the `docker-compose build` command first to build your app image
 
     $ docker-compose build
 
+Next, run the following command to start the stack. 
+
     $ docker-compose up
+
+`docker-compose.yml` is configured with Prometheus, Node Exporter, Flask App and Grafana. Each application is built and run on a separate container. A local network is created for those containers in the docker-compose with the container_name as hostname.  
 
 Prometheus server can be reached on http://localhost:9090/ 
 
@@ -31,7 +35,6 @@ Prometheus server can be reached on http://localhost:9090/
 
 `Localhost` is accessible from browser outside Docker. 
 
-Grafana can be reached on http://localhost:3000/. Choose the datasource(Prometheus) and configure it like below.
+Grafana can be reached on http://localhost:3000/, default user is `admin` and the password you set in the compose file `GF_SECURITY_ADMIN_PASSWORD=secure_pass`. Choose the datasource(Prometheus) and configure it like below. You can create dashboard based on what you want to monitor.
 
 ![](images/grafana.png)
-
